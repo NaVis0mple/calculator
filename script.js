@@ -26,3 +26,8 @@ function operator(operator ,a , b){
             return null;
     }
 }
+//button
+let btn = document.querySelectorAll('button');
+btn.forEach((callback)=>callback.addEventListener('click',(e)=>{
+    console.log(e.target.textContent);
+}))
