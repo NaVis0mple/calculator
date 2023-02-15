@@ -11,3 +11,18 @@ function multiply(a ,b){
 function division(a ,b){
     return a/b;
 }
+//operator
+function operator(operator ,a , b){
+    switch (operator){
+        case '+':
+            return add(a ,b);
+        case '-':
+            return minus(a ,b);
+        case '*':
+            return multiply(a ,b);
+        case '/':
+            return devision(a ,b);
+        default :
+            return null;
+    }
+}
