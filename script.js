@@ -40,6 +40,7 @@ btn.forEach((callback)=>callback.addEventListener('click',(e)=>{
 
 let btnO = document.querySelectorAll('.btnO');
 btnO.forEach((callback)=>callback.addEventListener('click',(e)=>{
+    if (displayInput.textContent==='') return;
     displayOutput.textContent=  displayInput.textContent+ e.target.textContent;
     displayInput.textContent = '';
     isEqualsClicked = false;
@@ -47,6 +48,7 @@ btnO.forEach((callback)=>callback.addEventListener('click',(e)=>{
 
 let btnE = document.querySelector('.btnE');
 btnE.addEventListener('click',()=>{
+    if (displayInput.textContent==='') return;
     if (isEqualsClicked) return;     //if is true then skip below
     let OP = displayOutput.textContent.slice(-1);
     let a = parseFloat(displayOutput.textContent.slice(0,-1));
