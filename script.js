@@ -33,13 +33,15 @@ let displayInput = document.getElementById('displayInput');
 let displayOutput = document.getElementById('displayOutput');
 let isEqualsClicked = false;   // set a variable to track if clicked
 let isOperatorClicked= false;
-
+let previousCalculateNum = null;
+let previousOperator = null;
 btn.forEach((callback)=>callback.addEventListener('click',(e)=>{
     if (isEqualsClicked) {
         displayInput.textContent = '';
         displayOutput.textContent = '';
     };
     displayInput.textContent += e.target.textContent ;
+     previousCalculateNum = e.target.textContent;
     isEqualsClicked = false;     
 }));
 
@@ -48,6 +50,7 @@ btnO.forEach((callback)=>callback.addEventListener('click',(e)=>{
     if (displayInput.textContent==='') return;
     displayOutput.textContent=  displayInput.textContent+ e.target.textContent;
     displayInput.textContent = '';
+    previousOperator = e.target.textContent;
     isEqualsClicked = false;
     isOperatorClicked = true;
 }));
@@ -55,16 +58,23 @@ btnO.forEach((callback)=>callback.addEventListener('click',(e)=>{
 let btnE = document.querySelector('.btnE');
 btnE.addEventListener('click',()=>{
     if (displayInput.textContent==='') return;
-    if (!isOperatorClicked) return;
-    if (isEqualsClicked) return;     //if is true then skip below
+    
     let OP = displayOutput.textContent.slice(-1);
     let a = parseFloat(displayOutput.textContent.slice(0,-1));
     let b = parseFloat(displayInput.textContent);
-    displayOutput.textContent = displayOutput.textContent + displayInput.textContent+'=';
-    displayInput.textContent = operator(OP,a,b);
-
-    isEqualsClicked = true;      // set to true if click 
-    isOperatorClicked = false;
+    if (!b) return;
+    
+    if(isEqualsClicked) {     //1+1=2  press '='    2+1=3 
+        let previousResult = parseFloat(displayInput.textContent);
+        let newResult = operator(previousOperator,previousResult,parseFloat(previousCalculateNum));
+        displayOutput.textContent = previousResult + previousOperator + previousCalculateNum  +'=';
+        displayInput.textContent = newResult;
+    }else {
+        displayOutput.textContent = displayOutput.textContent + displayInput.textContent+'=';
+        displayInput.textContent = operator(OP,a,b);
+        isEqualsClicked = true;      // set to true if click 
+        isOperatorClicked = false;
+    }
 }); 
 
 //clear
