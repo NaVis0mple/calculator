@@ -35,6 +35,7 @@ let isEqualsClicked = false;   // set a variable to track if clicked
 let isOperatorClicked= false;
 let previousCalculateNum = null;
 let previousOperator = null;
+
 btn.forEach((callback)=>callback.addEventListener('click',(e)=>{
     if (isEqualsClicked) {
         displayInput.textContent = '';
@@ -48,17 +49,24 @@ btn.forEach((callback)=>callback.addEventListener('click',(e)=>{
 let btnO = document.querySelectorAll('.btnO');
 btnO.forEach((callback)=>callback.addEventListener('click',(e)=>{
     if (displayInput.textContent==='') return;
+    if (previousCalculateNum!=null&&previousOperator!=null){
+        let result = operator(previousOperator,parseFloat(displayOutput.textContent.slice(0,-1)),parseFloat(previousCalculateNum));
+        displayOutput.textContent = result + e.target.textContent;
+        displayInput.textContent = '';
+
+    }else{
     displayOutput.textContent=  displayInput.textContent+ e.target.textContent;
     displayInput.textContent = '';
+    }
     previousOperator = e.target.textContent;
     isEqualsClicked = false;
     isOperatorClicked = true;
+ 
 }));
 
 let btnE = document.querySelector('.btnE');
 btnE.addEventListener('click',()=>{
     if (displayInput.textContent==='') return;
-    
     let OP = displayOutput.textContent.slice(-1);
     let a = parseFloat(displayOutput.textContent.slice(0,-1));
     let b = parseFloat(displayInput.textContent);
@@ -69,14 +77,14 @@ btnE.addEventListener('click',()=>{
         let newResult = operator(previousOperator,previousResult,parseFloat(previousCalculateNum));
         displayOutput.textContent = previousResult + previousOperator + previousCalculateNum  +'=';
         displayInput.textContent = newResult;
-    }else {
+    }
+    else{
         displayOutput.textContent = displayOutput.textContent + displayInput.textContent+'=';
         displayInput.textContent = operator(OP,a,b);
         isEqualsClicked = true;      // set to true if click 
         isOperatorClicked = false;
     }
 }); 
-
 //clear
 let btnC = document.querySelector('.btnC');
 btnC.addEventListener('click',()=>{
@@ -84,4 +92,6 @@ btnC.addEventListener('click',()=>{
     displayOutput.textContent='';
     isEqualsClicked = false;
     isOperatorClicked = false;
+    previousCalculateNum = null;
+    previousOperator = null;
 });
