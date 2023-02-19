@@ -9,7 +9,10 @@ function multiply(a ,b){
     return a*b;
 }
 function division(a ,b){
-    return a/b;
+    if (b === 0) {
+        return Infinity; // return a special value to indicate undefined result
+      }
+      return a / b;
 }
 //operator
 function operator(operator ,a , b){
@@ -70,20 +73,26 @@ btnE.addEventListener('click',()=>{
     let OP = displayOutput.textContent.slice(-1);
     let a = parseFloat(displayOutput.textContent.slice(0,-1));
     let b = parseFloat(displayInput.textContent);
-    if (!b) return;
-    
+    if (b === null || b === undefined || isNaN(b)) {
+        return;
+      }
+    console.log('hi');
+
     if(isEqualsClicked) {     //1+1=2  press '='    2+1=3 
         let previousResult = parseFloat(displayInput.textContent);
         let newResult = operator(previousOperator,previousResult,parseFloat(previousCalculateNum));
         displayOutput.textContent = previousResult + previousOperator + previousCalculateNum  +'=';
         displayInput.textContent = newResult;
+        console.log('hi1');
     }
     else{
         displayOutput.textContent = displayOutput.textContent + displayInput.textContent+'=';
         displayInput.textContent = operator(OP,a,b);
-        isEqualsClicked = true;      // set to true if click 
+        
         isOperatorClicked = false;
+        console.log('hi2');
     }
+    isEqualsClicked = true;      // set to true if click 
 }); 
 //clear
 let btnC = document.querySelector('.btnC');
