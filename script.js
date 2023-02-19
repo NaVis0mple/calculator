@@ -73,7 +73,7 @@ btnE.addEventListener('click',()=>{
     let OP = displayOutput.textContent.slice(-1);
     let a = parseFloat(displayOutput.textContent.slice(0,-1));
     let b = parseFloat(displayInput.textContent);
-    if (b === null || b === undefined || isNaN(b)) {
+    if (b === null || b === undefined || isNaN(b)) {  //(!b) if b=0 is true cause problem
         return;
       }
     console.log('hi');
