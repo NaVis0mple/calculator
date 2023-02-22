@@ -1,0 +1,15 @@
+.box1 {
+    box-sizing: border-box;
+    display: flex;
+    height: 800px;
+    justify-content: center;
+    align-items: center;
+}
+.numberBox {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+}
+.operatorBox {
+    display: grid;
+    grid-template-columns: repeat(1,1fr);
+}
