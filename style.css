@@ -9,6 +9,11 @@
     display: grid;
     grid-template-columns: repeat(3,1fr);
 }
+
+.btn0 {
+    grid-column: 2 / 3;
+}
+
 .operatorBox {
     display: grid;
     grid-template-columns: repeat(1,1fr);
