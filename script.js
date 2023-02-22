@@ -48,9 +48,25 @@ btn.forEach((callback)=>callback.addEventListener('click',(e)=>{
         displayOutput.textContent = '';
     };
     displayInput.textContent += e.target.textContent ;
-     previousCalculateNum = e.target.textContent;
+    previousCalculateNum = e.target.textContent;
     isEqualsClicked = false;     
 }));
+//keyborad
+window.addEventListener('keydown',(e)=>{
+    if (isEqualsClicked) {
+        displayInput.textContent = '';
+        displayOutput.textContent = '';
+    };
+    if(/\d/.test(e.key)){
+    displayInput.textContent += e.key ;
+    previousCalculateNum = e.key;
+    isEqualsClicked = false; 
+    console.log(e.key);
+    }
+});
+
+
+
 
 let btnO = document.querySelectorAll('.btnO');
 btnO.forEach((callback)=>callback.addEventListener('click',(e)=>{
@@ -67,16 +83,20 @@ btnO.forEach((callback)=>callback.addEventListener('click',(e)=>{
     previousOperator = e.target.textContent;
     isEqualsClicked = false;
     isOperatorClicked = true;
- 
 }));
+//keyborad
+
 
 let btnE = document.querySelector('.btnE');
-btnE.addEventListener('click',(e)=>{
+btnE.addEventListener('click',()=>{
     if (displayInput.textContent==='') return;
     let OP = displayOutput.textContent.slice(-1);
     let a = parseFloat(displayOutput.textContent.slice(0,-1));
     let b = parseFloat(displayInput.textContent);
     if (b === null || b === undefined || isNaN(b)) {  //(!b) if b=0 is true cause problem
+        return;
+      }
+    if (a === null || a === undefined || isNaN(a)) { 
         return;
       }
     console.log('hi');
@@ -105,6 +125,3 @@ btnC.addEventListener('click',(e)=>{
     previousCalculateNum = null;
     previousOperator = null;
 });
-
-//keyborad
-
