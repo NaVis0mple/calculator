@@ -1,10 +1,23 @@
 .box1 {
     box-sizing: border-box;
+    flex-direction: column;
     display: flex;
     height: 800px;
     justify-content: center;
     align-items: center;
 }
+
+.displayBox {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    justify-content: center;
+    align-items: center;
+}
+.container {
+    display: flex;
+}
+
 .numberBox {
     display: grid;
     grid-template-columns: repeat(3,1fr);
