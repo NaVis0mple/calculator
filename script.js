@@ -43,25 +43,37 @@ let box1 = document.querySelector(".box1");
 
 btn.forEach((callback)=>callback.addEventListener('click',(e)=>{
 
-    if (isEqualsClicked) {
-        displayInput.textContent = '';
-        displayOutput.textContent = '';
-    };
+    if (isEqualsClicked&&!isOperatorClicked) {
+        displayInput.textContent ='';     //clear
+        displayOutput.textContent='';
+        isEqualsClicked = false;
+        isOperatorClicked = false;
+        previousCalculateNum = null;
+        previousOperator = null;
+        displayInput.textContent += e.target.textContent;
+    }else{
     displayInput.textContent += e.target.textContent ;
     previousCalculateNum = e.target.textContent;
-    isEqualsClicked = false;     
+    isEqualsClicked = false;  
+    }   
 }));
 //keyborad num
 window.addEventListener('keydown',(e)=>{
     if(/\d/g.test(e.key)){    //only number in 
         if(e.keyCode>=112&&e.keyCode<=123) return;  //remove F1-F12   shouldnot use e.keyCode instead e.key or e.code
+        if (isEqualsClicked&&!isOperatorClicked) {
+            displayInput.textContent ='';     //clear
+            displayOutput.textContent='';
+            isEqualsClicked = false;
+            isOperatorClicked = false;
+            previousCalculateNum = null;
+            previousOperator = null;
+            displayInput.textContent += e.key;
+        }else{
         displayInput.textContent += e.key ;
         previousCalculateNum = e.key;
-        isEqualsClicked = false; 
-        if (isEqualsClicked) {
-            displayInput.textContent = '';
-            displayOutput.textContent = '';
-        }
+        isEqualsClicked = false;  
+        }   
     }
     
 });
@@ -154,14 +166,12 @@ window.addEventListener('keydown',(e)=>{
         let newResult = operator(previousOperator,previousResult,parseFloat(previousCalculateNum));
         displayOutput.textContent = previousResult + previousOperator + previousCalculateNum  +'=';
         displayInput.textContent = newResult;
-        console.log('ji888');
     }
     else{
         displayOutput.textContent = displayOutput.textContent + displayInput.textContent+'=';
         displayInput.textContent = operator(OP,a,b);
         
         isOperatorClicked = false;
-        console.log('ji');
     }
     isEqualsClicked = true;      // set to true if click 
     }
