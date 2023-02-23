@@ -51,20 +51,19 @@ btn.forEach((callback)=>callback.addEventListener('click',(e)=>{
     previousCalculateNum = e.target.textContent;
     isEqualsClicked = false;     
 }));
-//keyborad
+//keyborad num
 window.addEventListener('keydown',(e)=>{
-    if (isEqualsClicked) {
-        displayInput.textContent = '';
-        displayOutput.textContent = '';
-    };
     if(/\d/g.test(e.key)){    //only number in 
-        if(e.keyCode>=112&&e.keyCode<=123) return;  //remove F1-F12 
-        console.log(e);
+        if(e.keyCode>=112&&e.keyCode<=123) return;  //remove F1-F12   shouldnot use e.keyCode instead e.key or e.code
         displayInput.textContent += e.key ;
         previousCalculateNum = e.key;
         isEqualsClicked = false; 
-        console.log(e.key);
+        if (isEqualsClicked) {
+            displayInput.textContent = '';
+            displayOutput.textContent = '';
+        }
     }
+    
 });
 
 
@@ -73,7 +72,7 @@ window.addEventListener('keydown',(e)=>{
 let btnO = document.querySelectorAll('.btnO');
 btnO.forEach((callback)=>callback.addEventListener('click',(e)=>{
     if (displayInput.textContent==='') return;
-    if (previousCalculateNum!=null&&previousOperator!=null){
+    if (previousCalculateNum!=null&&previousOperator!=null){  //5+6  + => 11+
         let result = operator(previousOperator,parseFloat(displayOutput.textContent.slice(0,-1)),parseFloat(previousCalculateNum));
         displayOutput.textContent = result + e.target.textContent;
         displayInput.textContent = '';
@@ -86,8 +85,26 @@ btnO.forEach((callback)=>callback.addEventListener('click',(e)=>{
     isEqualsClicked = false;
     isOperatorClicked = true;
 }));
-//keyborad
+//keyborad operator
+window.addEventListener('keydown',(e)=>{
+    if((e.key=='+'||e.key=='-'||e.key=='*'||e.key=='/')) {
 
+    if (displayInput.textContent==='') return;
+    if (previousCalculateNum!=null&&previousOperator!=null){  //5+6  + => 11+
+        let result = operator(previousOperator,parseFloat(displayOutput.textContent.slice(0,-1)),parseFloat(previousCalculateNum));
+        displayOutput.textContent = result + e.key;
+        displayInput.textContent = '';
+
+    }else{
+    displayOutput.textContent=  displayInput.textContent+ e.key;
+    displayInput.textContent = '';
+    }
+    
+    previousOperator = e.key;
+    isEqualsClicked = false;
+    isOperatorClicked = true;
+    }
+});
 
 let btnE = document.querySelector('.btnE');
 btnE.addEventListener('click',()=>{
@@ -101,7 +118,6 @@ btnE.addEventListener('click',()=>{
     if (a === null || a === undefined || isNaN(a)) { 
         return;
       }
-    console.log('hi');
 
     if(isEqualsClicked) {     //1+1=2  press '='    2+1=3 
         let previousResult = parseFloat(displayInput.textContent);
@@ -117,6 +133,39 @@ btnE.addEventListener('click',()=>{
     }
     isEqualsClicked = true;      // set to true if click 
 }); 
+//keyborad 'equal'
+window.addEventListener('keydown',(e)=>{
+    if((e.key=='='||e.key=='Enter')) {
+
+    if (displayInput.textContent===null) return;
+
+    let OP = displayOutput.textContent.slice(-1);
+    let a = parseFloat(displayOutput.textContent.slice(0,-1));
+    let b = parseFloat(displayInput.textContent);
+    if (b === null || b === undefined || isNaN(b)) {  //(!b) if b=0 is true cause problem
+        return;
+      }
+    if (a === null || a === undefined || isNaN(a)) { 
+        return;
+      }
+
+    if(isEqualsClicked) {     //1+1=2  press '='    2+1=3 
+        let previousResult = parseFloat(displayInput.textContent);
+        let newResult = operator(previousOperator,previousResult,parseFloat(previousCalculateNum));
+        displayOutput.textContent = previousResult + previousOperator + previousCalculateNum  +'=';
+        displayInput.textContent = newResult;
+        console.log('ji888');
+    }
+    else{
+        displayOutput.textContent = displayOutput.textContent + displayInput.textContent+'=';
+        displayInput.textContent = operator(OP,a,b);
+        
+        isOperatorClicked = false;
+        console.log('ji');
+    }
+    isEqualsClicked = true;      // set to true if click 
+    }
+});
 //clear
 let btnC = document.querySelector('.btnC');
 btnC.addEventListener('click',(e)=>{
@@ -127,3 +176,4 @@ btnC.addEventListener('click',(e)=>{
     previousCalculateNum = null;
     previousOperator = null;
 });
+
