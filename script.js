@@ -57,11 +57,13 @@ window.addEventListener('keydown',(e)=>{
         displayInput.textContent = '';
         displayOutput.textContent = '';
     };
-    if(/\d/.test(e.key)){
-    displayInput.textContent += e.key ;
-    previousCalculateNum = e.key;
-    isEqualsClicked = false; 
-    console.log(e.key);
+    if(/\d/g.test(e.key)){    //only number in 
+        if(e.keyCode>=112&&e.keyCode<=123) return;  //remove F1-F12 
+        console.log(e);
+        displayInput.textContent += e.key ;
+        previousCalculateNum = e.key;
+        isEqualsClicked = false; 
+        console.log(e.key);
     }
 });
 
